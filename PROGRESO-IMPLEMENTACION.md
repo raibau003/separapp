@@ -161,7 +161,7 @@
 
 ---
 
-## ✅ FASE 4: Completar Módulos (80% COMPLETA)
+## ✅ FASE 4: Completar Módulos (95% COMPLETA)
 
 ### Lo que se implementó:
 
@@ -235,15 +235,38 @@
   - Función para marcar pagos vencidos
   - Queries de verificación
 
-### Módulo Gastos (Pendiente - 20%)
-- [ ] Actualizar pantalla de gastos para usar OCR real
-- [ ] Notificaciones de gastos pendientes
-- [ ] Export PDF
+#### 7. **Módulo de Calendario**
+- ✅ **hooks/useCalendario.ts creado** - Gestión completa de calendario:
+  - `loadEvents()` - Carga eventos del calendario
+  - `createEvent()` - Crear nuevos eventos
+  - `updateEvent()` - Actualizar eventos
+  - `deleteEvent()` - Eliminar eventos
+  - `getEventsForDate()` - Obtener eventos de una fecha
+  - `scheduleEventNotification()` - Programa notificación 1 día antes
+  - `getUpcomingEvents()` - Obtener próximos eventos
+  - `getCustodyEventsForMonth()` - Eventos de custodia del mes
+  - Soporta 5 tipos de eventos: custody, medical, school, activity, other
+  - Código de colores por tipo de evento
+  - Suscripción en tiempo real a cambios
+- ✅ **app/(tabs)/calendario.tsx actualizado** - Pantalla completa de calendario:
+  - Integración con react-native-calendars
+  - Vista de calendario con fechas marcadas
+  - Leyenda de colores por tipo de evento
+  - Lista de eventos del día seleccionado
+  - Formato de cards con badges de tipo
+  - Pull to refresh
+  - Botón para agregar eventos
+  - Calendario en español
+- ✅ **calendar_events tabla en Supabase**:
+  - Columnas: title, description, event_type, start_date, end_date, all_day, location
+  - RLS completo (usuarios solo ven eventos de su familia)
+  - Índices optimizados
+  - Política de eliminación (solo el creador puede eliminar)
 
-### Módulo Calendario (Pendiente - 20%)
-- [ ] Vista de calendario completa con react-native-calendars
-- [ ] Crear/editar eventos
-- [ ] Código de colores por tipo
+### Módulo Gastos (Pendiente - 20%)
+- [ ] Actualizar pantalla de gastos para usar OCR real con extractReceiptData()
+- [ ] Notificaciones de gastos pendientes
+- [ ] Export PDF de gastos
 
 ---
 
@@ -262,10 +285,10 @@
 FASE 1: ████████████████████ 100% ✅
 FASE 2: ████████████████████ 100% ✅
 FASE 3: ████████████████████ 100% ✅
-FASE 4: ████████████████░░░░  80% 🔄
+FASE 4: ███████████████████░  95% 🔄
 FASE 5: ░░░░░░░░░░░░░░░░░░░░   0%
 
-TOTAL:  ███████████████░░░░░  76%
+TOTAL:  ███████████████████░  79%
 ```
 
 ---
@@ -341,6 +364,6 @@ Prioridades:
 
 ---
 
-**Estado:** 60% completo - 3 de 5 fases terminadas 🚀
-**Última sesión:** FASE 1, 2 y 3 completas
-**Próxima sesión:** FASE 4 - Completar módulos de la app
+**Estado:** 79% completo - ¡Casi listo! 🚀
+**Última sesión:** FASE 1, 2, 3 y 4 (95%) completas
+**Próxima sesión:** Finalizar FASE 4 (Gastos) y FASE 5 (Testing)
