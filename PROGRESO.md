@@ -1,4 +1,4 @@
-# 🚀 Progreso del Proyecto Órbita App
+# 🚀 Progreso del Proyecto SeparApp
 
 **Última actualización:** 14 de marzo de 2026 - 11:30 AM
 
@@ -91,7 +91,7 @@
 - [x] Este archivo PROGRESO.md
 
 ### 12. Git & GitHub
-- [x] Repositorio en https://github.com/raibau003/orbita-app.git
+- [x] Repositorio en https://github.com/raibau003/separapp.git
 - [x] 2 commits realizados
 - [x] Rama main actualizada
 
@@ -215,7 +215,7 @@
 
 Puedes iniciar la app con:
 ```bash
-cd /Users/javiercorrea/orbita-app
+cd /Users/javiercorrea/separapp
 npm start
 ```
 
@@ -243,7 +243,7 @@ Y verás:
 
 ## 🔗 Links Importantes
 
-- **Repositorio:** https://github.com/raibau003/orbita-app.git
+- **Repositorio:** https://github.com/raibau003/separapp.git
 - **Supabase:** https://supabase.com/dashboard/project/srmhqcjbngrxmhnwfedq
 - **Documentación completa:** Ver CLAUDE.md
 

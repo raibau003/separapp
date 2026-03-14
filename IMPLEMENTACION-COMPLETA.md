@@ -1,4 +1,4 @@
-# 🎉 IMPLEMENTACIÓN COMPLETA - ÓRBITA APP
+# 🎉 IMPLEMENTACIÓN COMPLETA - SEPARAPP APP
 
 ## 📅 Sesión: 14 de Marzo de 2026
 
@@ -312,7 +312,7 @@ TOTAL: 3 archivos modificados - +200 líneas
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
-║                  ÓRBITA APP - PROGRESO TOTAL                  ║
+║                  SEPARAPP APP - PROGRESO TOTAL                  ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                               ║
 ║  ✅ Configuración Base          100%  ████████████████████  ║
@@ -411,7 +411,7 @@ feat: implement camera/OCR, expense details, and complete maintenance module
 
 ## 🔗 LINKS IMPORTANTES
 
-- **GitHub**: https://github.com/raibau003/orbita-app
+- **GitHub**: https://github.com/raibau003/separapp
 - **Último commit**: `03ac4c6`
 - **Supabase**: https://supabase.com/dashboard/project/srmhqcjbngrxmhnwfedq
 
@@ -533,7 +533,7 @@ feat: implement camera/OCR, expense details, and complete maintenance module
 **Debes ejecutar el SQL en Supabase:**
 
 1. Ve a https://supabase.com
-2. Proyecto: `orbita-app`
+2. Proyecto: `separapp`
 3. SQL Editor → New query
 4. Copia `EJECUTAR-ESTO-EN-SUPABASE.sql`
 5. Run

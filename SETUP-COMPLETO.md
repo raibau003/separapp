@@ -1,4 +1,4 @@
-# 🚀 SETUP COMPLETO - ÓRBITA APP
+# 🚀 SETUP COMPLETO - SEPARAPP APP
 
 ## ✅ Estado Actual del Proyecto
 
@@ -24,7 +24,7 @@
 
 1. **Abre tu navegador** y ve a: https://supabase.com
 2. **Inicia sesión** con tu cuenta
-3. **Selecciona el proyecto**: `orbita-app`
+3. **Selecciona el proyecto**: `separapp`
 4. **En el menú lateral izquierdo**, busca **"SQL Editor"**
 5. **Haz clic en "+ New query"**
 6. **Copia el contenido** del archivo `supabase-schema.sql` (está en la raíz del proyecto)
@@ -96,7 +96,7 @@ Si quieres datos de ejemplo para probar:
 Una vez configurada la BD:
 
 ```bash
-cd /Users/javiercorrea/orbita-app
+cd /Users/javiercorrea/separapp
 
 # Iniciar el servidor de desarrollo
 npm start
@@ -161,7 +161,7 @@ EXPO_PUBLIC_SUPABASE_URL=https://srmhqcjbngrxmhnwfedq.supabase.co
 EXPO_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_WbaUHBidVdi04zrBPJZ8Ug_AdD6rMNC
 ```
 
-**GitHub**: https://github.com/raibau003/orbita-app.git
+**GitHub**: https://github.com/raibau003/separapp.git
 
 ---
 

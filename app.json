@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "Órbita",
-    "slug": "orbita-app",
+    "name": "SeparApp",
+    "slug": "separapp",
     "owner": "raibau003",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "scheme": "orbita",
+    "scheme": "separapp",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.raibau003.orbita"
+      "bundleIdentifier": "com.raibau003.separapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -24,7 +24,7 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "package": "com.raibau003.orbita",
+      "package": "com.raibau003.separapp",
       "permissions": [
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
@@ -41,13 +41,13 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Órbita necesita acceso a la cámara para escanear boletas."
+          "cameraPermission": "SeparApp necesita acceso a la cámara para escanear boletas."
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "Órbita necesita acceso a tus fotos para adjuntar comprobantes."
+          "photosPermission": "SeparApp necesita acceso a tus fotos para adjuntar comprobantes."
         }
       ]
     ],

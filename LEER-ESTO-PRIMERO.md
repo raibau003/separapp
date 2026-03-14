@@ -1,4 +1,4 @@
-# 🎉 ¡PROYECTO ÓRBITA APP - LISTO PARA CONTINUAR!
+# 🎉 ¡PROYECTO SEPARAPP APP - LISTO PARA CONTINUAR!
 
 ## 📍 DÓNDE ESTAMOS
 
@@ -13,7 +13,7 @@ El proyecto está **~40% completado** y listo para que la base de datos sea conf
 **Para que la app funcione con datos reales, necesitas hacer esto UNA VEZ:**
 
 1. Abre tu navegador → **https://supabase.com**
-2. Selecciona el proyecto **`orbita-app`**
+2. Selecciona el proyecto **`separapp`**
 3. En el menú izquierdo → **SQL Editor**
 4. Haz clic en **"+ New query"**
 5. Abre el archivo **`EJECUTAR-ESTO-EN-SUPABASE.sql`** (está en la raíz del proyecto)
@@ -147,7 +147,7 @@ El proyecto está **~40% completado** y listo para que la base de datos sea conf
 
 ### Verificar que Supabase está configurado
 ```bash
-cd /Users/javiercorrea/orbita-app
+cd /Users/javiercorrea/separapp
 node scripts/test-supabase.js
 ```
 
@@ -183,7 +183,7 @@ npm run android
 
 ### Ver el proyecto en GitHub
 ```bash
-open https://github.com/raibau003/orbita-app
+open https://github.com/raibau003/separapp
 ```
 
 ### Actualizar tipos desde Supabase (después de cambios en BD)
@@ -197,7 +197,7 @@ npx supabase gen types typescript --project-id srmhqcjbngrxmhnwfedq > types/data
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
-║                    ÓRBITA APP - PROGRESO                      ║
+║                    SEPARAPP APP - PROGRESO                      ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                               ║
 ║  Configuración Base     [████████████████████] 100%          ║
@@ -220,7 +220,7 @@ npx supabase gen types typescript --project-id srmhqcjbngrxmhnwfedq > types/data
 
 ## 🔗 LINKS IMPORTANTES
 
-- **GitHub**: https://github.com/raibau003/orbita-app
+- **GitHub**: https://github.com/raibau003/separapp
 - **Supabase Dashboard**: https://supabase.com/dashboard/project/srmhqcjbngrxmhnwfedq
 - **Supabase SQL Editor**: https://supabase.com/dashboard/project/srmhqcjbngrxmhnwfedq/sql
 
@@ -245,7 +245,7 @@ npx supabase gen types typescript --project-id srmhqcjbngrxmhnwfedq > types/data
 
 ### ¿Dónde están los commits?
 ✅ Último commit: `feat: add database setup, gastos module UI, and complete documentation`
-✅ GitHub está actualizado: https://github.com/raibau003/orbita-app
+✅ GitHub está actualizado: https://github.com/raibau003/separapp
 
 ---
 

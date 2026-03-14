@@ -1,7 +1,7 @@
 # 📝 Resumen de Sesión - 14 de Marzo de 2026
 
 ## 🎯 Objetivo de Hoy
-Armar todo el proyecto Órbita App por etapas y continuar con el desarrollo del MVP.
+Armar todo el proyecto SeparApp por etapas y continuar con el desarrollo del MVP.
 
 ---
 
@@ -45,7 +45,7 @@ Armar todo el proyecto Órbita App por etapas y continuar con el desarrollo del 
 ### 🚨 Para que la app funcione, DEBES ejecutar el SQL en Supabase:
 
 1. **Abre tu navegador** → https://supabase.com
-2. **Proyecto**: `orbita-app`
+2. **Proyecto**: `separapp`
 3. **SQL Editor** (menú izquierdo)
 4. **New query**
 5. **Copia y pega** el contenido completo de `EJECUTAR-ESTO-EN-SUPABASE.sql`
@@ -119,7 +119,7 @@ Una vez ejecutes el SQL, verificaremos que todo funcione
 
 ### Verificar que Supabase está configurado:
 ```bash
-cd /Users/javiercorrea/orbita-app
+cd /Users/javiercorrea/separapp
 node scripts/test-supabase.js
 ```
 
@@ -164,8 +164,8 @@ Empezar con el siguiente módulo prioritario del MVP
 
 1. **La app YA funciona localmente** - Login, registro, navegación todo OK
 2. **Falta SOLO la BD** - Necesitas ejecutar el SQL una vez
-3. **No perdiste ningún código** - Todo está en `/Users/javiercorrea/orbita-app`
-4. **GitHub actualizado** - Todo está en `https://github.com/raibau003/orbita-app.git`
+3. **No perdiste ningún código** - Todo está en `/Users/javiercorrea/separapp`
+4. **GitHub actualizado** - Todo está en `https://github.com/raibau003/separapp.git`
 
 ---
 

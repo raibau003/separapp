@@ -1,17 +1,17 @@
-# CLAUDE.md — Órbita App
+# CLAUDE.md — SeparApp
 
 > Este archivo es el contexto permanente del proyecto. Léelo completo al inicio de cada sesión antes de escribir cualquier código.
 
 ---
 
-## ¿Qué es Órbita?
+## ¿Qué es SeparApp?
 
-**Órbita** es una app de coparentalidad para padres separados con hijos en LATAM (Chile, Argentina, México, España).
+**SeparApp** es una app de coparentalidad para padres separados con hijos en LATAM (Chile, Argentina, México, España).
 
 El concepto: los hijos son el centro. Los dos padres orbitan alrededor de ellos.
 **Tagline:** *"Dos mundos, un centro"*
 
-El problema que resuelve: padres separados que hoy coordinan por WhatsApp — gastos, manutención, calendario de custodia, tareas del colegio — sin registro formal, sin historial legal, con mucho conflicto. Órbita reemplaza ese caos con una herramienta estructurada, con historial inmutable y valor legal.
+El problema que resuelve: padres separados que hoy coordinan por WhatsApp — gastos, manutención, calendario de custodia, tareas del colegio — sin registro formal, sin historial legal, con mucho conflicto. SeparApp reemplaza ese caos con una herramienta estructurada, con historial inmutable y valor legal.
 
 ---
 
@@ -41,24 +41,24 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_WbaUHBidVdi04zrBPJZ8Ug_AdD6rMNC
 ```
 
 **Cuentas:**
-- GitHub: `raibau003` — repo: `https://github.com/raibau003/orbita-app.git`
-- Supabase: proyecto `orbita-app` — org `raibau003's Org`
+- GitHub: `raibau003` — repo: `https://github.com/raibau003/separapp.git`
+- Supabase: proyecto `separapp` — org `raibau003's Org`
 - Expo: `raibau003`
 - Vercel: conectado con GitHub (auto-deploy en push a `main`)
 
 **App config:**
-- `name`: Órbita
-- `slug`: orbita-app
+- `name`: SeparApp
+- `slug`: separapp
 - `owner`: raibau003
-- `bundleIdentifier` (iOS): com.raibau003.orbita
-- `package` (Android): com.raibau003.orbita
+- `bundleIdentifier` (iOS): com.raibau003.separapp
+- `package` (Android): com.raibau003.separapp
 
 ---
 
 ## Estructura de carpetas
 
 ```
-orbita-app/
+separapp/
 ├── app/                        # Rutas (Expo Router - file-based)
 │   ├── (auth)/                 # Login, registro, recuperar contraseña
 │   │   ├── login.tsx

@@ -1,4 +1,4 @@
-# Configuración de Supabase para Órbita App
+# Configuración de Supabase para SeparApp
 
 ## 📋 Pasos para configurar la base de datos
 
@@ -6,7 +6,7 @@
 
 1. Ve a [https://supabase.com](https://supabase.com)
 2. Inicia sesión con tu cuenta `raibau003`
-3. Abre el proyecto `orbita-app`
+3. Abre el proyecto `separapp`
 
 ### 2. Ejecutar el esquema SQL
 

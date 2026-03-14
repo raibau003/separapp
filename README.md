@@ -1,6 +1,6 @@
-# Órbita App
+# SeparApp
 
-**Dos mundos, un centro**
+**Gestión inteligente para padres separados**
 
 App de coparentalidad para padres separados con hijos en LATAM.
 
@@ -43,7 +43,7 @@ npm run reset      # Reiniciar caché de Expo
 ## Estructura del Proyecto
 
 ```
-orbita-app/
+separapp/
 ├── app/              # Rutas (Expo Router)
 ├── components/       # Componentes reutilizables
 ├── hooks/           # Custom hooks
