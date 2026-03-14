@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { Slot, useRouter, useSegments } from 'expo-router';
+import { StripeProvider } from '@stripe/stripe-react-native';
 import { useAuth } from '@/hooks/useAuth';
+import { STRIPE_PUBLISHABLE_KEY } from '@/lib/stripe';
 
 export default function RootLayout() {
   const { isAuthenticated, loading } = useAuth();
@@ -21,5 +23,9 @@ export default function RootLayout() {
     }
   }, [isAuthenticated, loading, segments]);
 
-  return <Slot />;
+  return (
+    <StripeProvider publishableKey={STRIPE_PUBLISHABLE_KEY}>
+      <Slot />
+    </StripeProvider>
+  );
 }
