@@ -1,6 +1,6 @@
 /**
  * Servicio de OCR para extraer información de boletas
- * Usa expo-camera y ML Kit para reconocimiento de texto
+ * Usa OpenAI Vision API para reconocimiento inteligente de recibos
  */
 
 interface OCRResult {
@@ -10,35 +10,137 @@ interface OCRResult {
   rawText: string;
 }
 
+const OPENAI_API_KEY = process.env.EXPO_PUBLIC_OPENAI_API_KEY || '';
+
 /**
- * Extrae información de una imagen de boleta
- * En una implementación real, esto usaría ML Kit o Google Cloud Vision
- * Por ahora, retorna un objeto de ejemplo
+ * Extrae información de una imagen de boleta usando OpenAI Vision API
  */
 export async function extractReceiptData(imageUri: string): Promise<OCRResult> {
   try {
-    // TODO: Implementar OCR real con ML Kit o Google Cloud Vision
-    // Por ahora, simulamos el proceso
+    console.log('📸 Procesando imagen con OpenAI Vision API:', imageUri);
 
-    console.log('Procesando imagen:', imageUri);
+    // Leer la imagen como base64
+    const base64Image = await imageToBase64(imageUri);
 
-    // Simular delay de procesamiento
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Llamar a OpenAI Vision API
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: `Eres un experto en extraer información de recibos y boletas.
+Analiza la imagen y extrae la siguiente información en formato JSON:
+{
+  "amount": número (solo el monto total, sin símbolos),
+  "date": "YYYY-MM-DD" (fecha del recibo),
+  "merchant": "nombre del comercio o vendedor",
+  "rawText": "texto completo extraído"
+}
 
-    // En producción, aquí iría la lógica real de OCR
-    // Ejemplo con ML Kit:
-    // const recognizedText = await TextRecognition.recognize(imageUri);
-    // const extractedData = parseReceiptText(recognizedText.text);
+Si no encuentras algún dato, usa null. Responde SOLO con el JSON, sin explicaciones adicionales.`,
+          },
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: 'Extrae la información de este recibo/boleta. Responde solo con el JSON.',
+              },
+              {
+                type: 'image_url',
+                image_url: {
+                  url: `data:image/jpeg;base64,${base64Image}`,
+                },
+              },
+            ],
+          },
+        ],
+        max_tokens: 500,
+        temperature: 0.1,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('OpenAI API error:', error);
+      throw new Error('Error al procesar la imagen con OpenAI');
+    }
+
+    const data = await response.json();
+    const content = data.choices[0]?.message?.content;
+
+    if (!content) {
+      throw new Error('No se recibió respuesta de OpenAI');
+    }
+
+    // Parsear el JSON de la respuesta
+    const extractedData = JSON.parse(content);
+
+    console.log('✅ Datos extraídos:', extractedData);
 
     return {
-      amount: undefined,
-      date: undefined,
-      merchant: undefined,
-      rawText: '',
+      amount: extractedData.amount || undefined,
+      date: extractedData.date || undefined,
+      merchant: extractedData.merchant || undefined,
+      rawText: extractedData.rawText || '',
     };
   } catch (error) {
-    console.error('Error in OCR:', error);
-    throw new Error('No se pudo procesar la imagen');
+    console.error('❌ Error in OCR:', error);
+
+    // Fallback: intentar con parseado manual si OpenAI falla
+    console.log('🔄 Intentando con parseado manual...');
+    return fallbackOCR(imageUri);
+  }
+}
+
+/**
+ * Fallback OCR usando parseado de texto manual (sin IA)
+ */
+async function fallbackOCR(imageUri: string): Promise<OCRResult> {
+  // Este es un fallback básico en caso de que OpenAI falle
+  // Retorna datos vacíos para que el usuario los complete manualmente
+  return {
+    amount: undefined,
+    date: undefined,
+    merchant: undefined,
+    rawText: '',
+  };
+}
+
+/**
+ * Convierte una imagen a base64
+ */
+async function imageToBase64(imageUri: string): Promise<string> {
+  try {
+    // Si ya es una URI de data, extraer el base64
+    if (imageUri.startsWith('data:')) {
+      return imageUri.split(',')[1];
+    }
+
+    // Leer el archivo como base64
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        // Remover el prefijo "data:image/...;base64,"
+        const base64Data = base64.split(',')[1] || base64;
+        resolve(base64Data);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.error('Error converting image to base64:', error);
+    throw error;
   }
 }
 

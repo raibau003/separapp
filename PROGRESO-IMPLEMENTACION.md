@@ -161,27 +161,89 @@
 
 ---
 
-## ⏳ FASE 4: Completar Módulos (PENDIENTE)
+## ✅ FASE 4: Completar Módulos (80% COMPLETA)
 
-### Módulo Gastos
-- [ ] OCR real con OpenAI Vision API
+### Lo que se implementó:
+
+#### 1. **OCR con OpenAI Vision API**
+- ✅ **lib/ocr.ts actualizado** - OCR real con IA:
+  - `extractReceiptData()` - Extrae información de recibos usando GPT-4o-mini Vision
+  - Detecta automáticamente: monto, fecha, comercio
+  - Convierte imagen a base64
+  - Fallback manual si la API falla
+  - Respuesta en formato JSON estructurado
+
+#### 2. **Filtro de Mensajes con IA**
+- ✅ **lib/claude.ts creado** - Moderación de contenido:
+  - `filterMessage()` - Filtra mensajes usando GPT-4o-mini
+  - `quickFilter()` - Filtro rápido con reglas básicas
+  - `validateMessage()` - Combina ambos filtros
+  - `suggestBetterMessage()` - Sugiere versiones mejoradas
+  - 3 niveles de severidad: safe, warning, blocked
+  - Detecta: insultos, agresividad, manipulación, sarcasmo
+
+#### 3. **Sistema de Manutención**
+- ✅ **hooks/useManutencion.ts creado** - Gestión completa:
+  - `loadPayments()` - Carga pagos con actualización automática de vencidos
+  - `markAsPaid()` - Marca pagos como pagados
+  - `createNextPayment()` - Crea próximo pago recurrente
+  - `setupRecurringPayments()` - Configura ciclo automático
+  - `schedulePaymentAlerts()` - Programa 3 alertas por pago:
+    - 3 días antes del vencimiento
+    - El día del vencimiento
+    - 1 día después (si está vencido)
+  - Soporta recurrencia: mensual, quincenal, semanal
+  - Cálculo automático de estadísticas
+  - Suscripción en tiempo real a cambios
+
+#### 4. **Mensajería en Tiempo Real**
+- ✅ **hooks/useMensajeria.ts creado** - Chat en tiempo real:
+  - `sendMessage()` - Envía mensajes con filtro de IA
+  - `markAsRead()` - Marca mensajes como leídos
+  - `markAllAsRead()` - Marca todos como leídos
+  - `getUnreadCount()` - Contador de no leídos
+  - Suscripción a Supabase Realtime para mensajes instantáneos
+  - Auto-actualización al recibir nuevos mensajes
+  - Mensajes inmutables (no se pueden editar ni borrar)
+- ✅ **app/(tabs)/mensajes.tsx actualizado** - Pantalla completa de chat:
+  - Lista de mensajes con scroll automático
+  - Formato de chat moderno (burbujas, timestamps)
+  - Separadores de fecha (Hoy, Ayer, fecha)
+  - Indicadores de lectura (✓ / ✓✓)
+  - Badge de filtro de IA activo
+  - Input con contador de caracteres (máx 500)
+  - Alertas cuando mensaje es bloqueado
+  - Estados de carga y vacío
+  - KeyboardAvoidingView para iOS
+
+#### 5. **Nuevas Tablas en Supabase**
+- ✅ `messages` - Mensajería:
+  - Columnas: content, filtered, read_at
+  - RLS habilitado (usuarios solo ven mensajes de su familia)
+  - Sin política DELETE (mensajes inmutables)
+  - Índices optimizados
+- ✅ `manutencion_payments` - Manutención:
+  - Columnas: amount, due_date, status, recurrence, paid_by, paid_at
+  - RLS habilitado
+  - Función `mark_overdue_payments()` para marcar vencidos
+  - Soporta recurrencia configurable
+
+#### 6. **Archivo SQL para ejecutar**
+- ✅ `supabase-fase4-tables.sql` - Script completo con:
+  - Creación de 2 tablas
+  - Políticas RLS completas
+  - Función para marcar pagos vencidos
+  - Queries de verificación
+
+### Módulo Gastos (Pendiente - 20%)
+- [ ] Actualizar pantalla de gastos para usar OCR real
 - [ ] Notificaciones de gastos pendientes
 - [ ] Export PDF
 
-### Módulo Manutención
-- [ ] Hook `useManutencion`
-- [ ] Alertas automáticas (3 días antes, día de vencimiento, atraso)
-- [ ] Ciclo automático de nuevos pagos
-
-### Módulo Calendario
-- [ ] Vista de calendario completa
+### Módulo Calendario (Pendiente - 20%)
+- [ ] Vista de calendario completa con react-native-calendars
 - [ ] Crear/editar eventos
 - [ ] Código de colores por tipo
-
-### Módulo Mensajería
-- [ ] Chat en tiempo real (Supabase Realtime)
-- [ ] Filtro IA con Claude API
-- [ ] Mensajes inmutables
 
 ---
 
@@ -200,10 +262,10 @@
 FASE 1: ████████████████████ 100% ✅
 FASE 2: ████████████████████ 100% ✅
 FASE 3: ████████████████████ 100% ✅
-FASE 4: ░░░░░░░░░░░░░░░░░░░░   0%
+FASE 4: ████████████████░░░░  80% 🔄
 FASE 5: ░░░░░░░░░░░░░░░░░░░░   0%
 
-TOTAL:  ████████████░░░░░░░░  60%
+TOTAL:  ███████████████░░░░░  76%
 ```
 
 ---
