@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { View, StyleSheet, ScrollView, Alert, TouchableOpacity, Text, Image } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert, TouchableOpacity, Text, Image, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import Modal from '@/components/ui/Modal';
 import Input from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
 import Button from '@/components/ui/Button';
+import CamaraBoletaModal from '@/components/gastos/CamaraBoletaModal';
 import { ExpenseCategory, Currency } from '@/types/app';
+import { extractReceiptData, formatDetectedAmount, formatDetectedDate } from '@/lib/ocr';
 
 interface NuevoGastoModalProps {
   visible: boolean;
@@ -40,6 +42,8 @@ const currencyOptions = [
 
 export default function NuevoGastoModal({ visible, onClose, onSubmit, children = [] }: NuevoGastoModalProps) {
   const [loading, setLoading] = useState(false);
+  const [processingOCR, setProcessingOCR] = useState(false);
+  const [cameraModalVisible, setCameraModalVisible] = useState(false);
   const [childId, setChildId] = useState('');
   const [amount, setAmount] = useState('');
   const [currency, setCurrency] = useState<Currency>('CLP');
@@ -66,21 +70,54 @@ export default function NuevoGastoModal({ visible, onClose, onSubmit, children =
     }
   };
 
-  const handleTakePhoto = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+  const handleTakePhoto = () => {
+    setCameraModalVisible(true);
+  };
 
-    if (status !== 'granted') {
-      Alert.alert('Permiso denegado', 'Necesitamos acceso a tu cámara para tomar la foto de la boleta.');
-      return;
-    }
+  const handleCameraCapture = async (imageUri: string) => {
+    setReceiptUri(imageUri);
+    setCameraModalVisible(false);
 
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      quality: 0.8,
-    });
+    // Procesar con OCR automáticamente
+    await processOCR(imageUri);
+  };
 
-    if (!result.canceled) {
-      setReceiptUri(result.assets[0].uri);
+  const processOCR = async (imageUri: string) => {
+    setProcessingOCR(true);
+    try {
+      const ocrResult = await extractReceiptData(imageUri);
+
+      // Si se detectó un monto, rellenarlo
+      if (ocrResult.amount) {
+        setAmount(ocrResult.amount.toString());
+        Alert.alert(
+          'Monto detectado',
+          `Se detectó un monto de ${formatDetectedAmount(ocrResult.amount)}. ¿Es correcto?`,
+          [
+            { text: 'Sí', style: 'default' },
+            { text: 'Modificar', style: 'cancel' },
+          ]
+        );
+      }
+
+      // Si se detectó una fecha, mostrarla en la descripción si está vacía
+      if (ocrResult.date && !description) {
+        setDescription(`Gasto del ${formatDetectedDate(ocrResult.date)}`);
+      }
+
+      // Si se detectó comercio, agregarlo a la descripción
+      if (ocrResult.merchant) {
+        const currentDesc = description || '';
+        const newDesc = currentDesc
+          ? `${currentDesc} - ${ocrResult.merchant}`
+          : ocrResult.merchant;
+        setDescription(newDesc);
+      }
+    } catch (error) {
+      console.error('OCR error:', error);
+      // No mostrar error al usuario, el OCR es opcional
+    } finally {
+      setProcessingOCR(false);
     }
   };
 
@@ -178,6 +215,12 @@ export default function NuevoGastoModal({ visible, onClose, onSubmit, children =
         />
 
         <Text style={styles.label}>Boleta o comprobante (opcional)</Text>
+        {processingOCR && (
+          <View style={styles.ocrProcessing}>
+            <ActivityIndicator color="#6C63FF" />
+            <Text style={styles.ocrText}>Procesando boleta...</Text>
+          </View>
+        )}
         {receiptUri ? (
           <View style={styles.imageContainer}>
             <Image source={{ uri: receiptUri }} style={styles.image} />
@@ -192,7 +235,7 @@ export default function NuevoGastoModal({ visible, onClose, onSubmit, children =
           <View style={styles.imageActions}>
             <TouchableOpacity style={styles.imageButton} onPress={handleTakePhoto}>
               <Ionicons name="camera" size={24} color="#6C63FF" />
-              <Text style={styles.imageButtonText}>Tomar foto</Text>
+              <Text style={styles.imageButtonText}>Escanear</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.imageButton} onPress={handlePickImage}>
               <Ionicons name="images" size={24} color="#6C63FF" />
@@ -200,6 +243,12 @@ export default function NuevoGastoModal({ visible, onClose, onSubmit, children =
             </TouchableOpacity>
           </View>
         )}
+
+        <CamaraBoletaModal
+          visible={cameraModalVisible}
+          onClose={() => setCameraModalVisible(false)}
+          onCapture={handleCameraCapture}
+        />
 
         <Button
           title={loading ? 'Creando...' : 'Crear Gasto'}
@@ -259,5 +308,20 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginTop: 8,
+  },
+  ocrProcessing: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+    backgroundColor: '#F0EFFF',
+    borderRadius: 8,
+    marginBottom: 12,
+    gap: 8,
+  },
+  ocrText: {
+    fontSize: 14,
+    color: '#6C63FF',
+    fontWeight: '500',
   },
 });

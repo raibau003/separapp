@@ -4,6 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import PagoCard from '@/components/manutencion/PagoCard';
+import ConfigurarManutencionModal from '@/components/manutencion/ConfigurarManutencionModal';
+import RegistrarPagoModal from '@/components/manutencion/RegistrarPagoModal';
 import { MaintenancePayment } from '@/types/app';
 import { formatCurrency } from '@/lib/utils';
 
@@ -12,6 +14,10 @@ export default function ManutencionScreen() {
   const [payments, setPayments] = useState<MaintenancePayment[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [configurarModalVisible, setConfigurarModalVisible] = useState(false);
+  const [registrarModalVisible, setRegistrarModalVisible] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState<MaintenancePayment | null>(null);
+  const [familyId, setFamilyId] = useState<string | null>(null);
 
   useEffect(() => {
     loadPayments();
@@ -26,13 +32,18 @@ export default function ManutencionScreen() {
       .eq('user_id', user.id)
       .single();
 
-    if (!familyMember) return;
+    if (!familyMember) {
+      setLoading(false);
+      return;
+    }
+
+    setFamilyId(familyMember.family_id);
 
     const { data, error } = await supabase
       .from('maintenance_payments')
       .select('*')
       .eq('family_id', familyMember.family_id)
-      .order('due_date', { ascending: false });
+      .order('due_date', { ascending: false});
 
     if (error) {
       console.error('Error loading payments:', error);
@@ -50,10 +61,58 @@ export default function ManutencionScreen() {
   };
 
   const handlePaymentPress = (payment: MaintenancePayment) => {
-    Alert.alert(
-      'Pago de Manutención',
-      `Monto: ${formatCurrency(payment.amount, payment.currency)}\nEstado: ${payment.status}`
-    );
+    if (payment.status === 'pending' || payment.status === 'late') {
+      setSelectedPayment(payment);
+      setRegistrarModalVisible(true);
+    } else {
+      Alert.alert(
+        'Pago de Manutención',
+        `Monto: ${formatCurrency(payment.amount, payment.currency)}\nEstado: Pagado`
+      );
+    }
+  };
+
+  const handleConfigurarManutencion = async (data: any) => {
+    if (!user || !familyId) return;
+
+    const { error } = await supabase
+      .from('maintenance_payments')
+      .insert({
+        family_id: familyId,
+        amount: data.amount,
+        currency: data.currency,
+        frequency: data.frequency,
+        due_date: data.due_date,
+        status: 'pending',
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    await loadPayments();
+    Alert.alert('¡Listo!', 'Manutención configurada exitosamente');
+  };
+
+  const handleRegistrarPago = async (paymentId: string, receiptUri?: string) => {
+    if (!user) return;
+
+    const { error } = await supabase
+      .from('maintenance_payments')
+      .update({
+        status: 'paid',
+        paid_date: new Date().toISOString().split('T')[0],
+        paid_by: user.id,
+        receipt_url: receiptUri || null,
+      })
+      .eq('id', paymentId);
+
+    if (error) {
+      throw error;
+    }
+
+    await loadPayments();
+    Alert.alert('¡Listo!', 'Pago registrado exitosamente');
   };
 
   const totalPending = payments
@@ -68,7 +127,10 @@ export default function ManutencionScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Manutención</Text>
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => setConfigurarModalVisible(true)}
+        >
           <Ionicons name="add" size={24} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
@@ -116,6 +178,22 @@ export default function ManutencionScreen() {
           }
         />
       )}
+
+      <ConfigurarManutencionModal
+        visible={configurarModalVisible}
+        onClose={() => setConfigurarModalVisible(false)}
+        onSubmit={handleConfigurarManutencion}
+      />
+
+      <RegistrarPagoModal
+        visible={registrarModalVisible}
+        onClose={() => {
+          setRegistrarModalVisible(false);
+          setSelectedPayment(null);
+        }}
+        payment={selectedPayment}
+        onSubmit={handleRegistrarPago}
+      />
     </View>
   );
 }

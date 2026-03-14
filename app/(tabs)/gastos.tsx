@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import GastoCard from '@/components/gastos/GastoCard';
 import NuevoGastoModal from '@/components/gastos/NuevoGastoModal';
+import DetalleGastoModal from '@/components/gastos/DetalleGastoModal';
 import { Expense } from '@/types/app';
 import { formatCurrency } from '@/lib/utils';
 
@@ -14,6 +15,8 @@ export default function GastosScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [detalleModalVisible, setDetalleModalVisible] = useState(false);
+  const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
   const [children, setChildren] = useState<any[]>([]);
   const [familyId, setFamilyId] = useState<string | null>(null);
 
@@ -107,8 +110,40 @@ export default function GastosScreen() {
   };
 
   const handleExpensePress = (expense: Expense) => {
-    // TODO: Navegar a detalle del gasto
-    Alert.alert('Detalle del gasto', `Monto: ${formatCurrency(expense.amount, expense.currency)}`);
+    setSelectedExpense(expense);
+    setDetalleModalVisible(true);
+  };
+
+  const handleApproveExpense = async (id: string) => {
+    if (!user) return;
+
+    const { error } = await supabase
+      .from('expenses')
+      .update({
+        status: 'approved',
+        approved_by: user.id,
+        approved_at: new Date().toISOString(),
+      })
+      .eq('id', id);
+
+    if (error) throw error;
+    await loadExpenses();
+  };
+
+  const handleRejectExpense = async (id: string) => {
+    if (!user) return;
+
+    const { error } = await supabase
+      .from('expenses')
+      .update({
+        status: 'rejected',
+        approved_by: user.id,
+        approved_at: new Date().toISOString(),
+      })
+      .eq('id', id);
+
+    if (error) throw error;
+    await loadExpenses();
   };
 
   const totalPending = expenses
@@ -178,6 +213,18 @@ export default function GastosScreen() {
         onClose={() => setModalVisible(false)}
         onSubmit={handleCreateExpense}
         children={children}
+      />
+
+      <DetalleGastoModal
+        visible={detalleModalVisible}
+        onClose={() => {
+          setDetalleModalVisible(false);
+          setSelectedExpense(null);
+        }}
+        expense={selectedExpense}
+        onApprove={handleApproveExpense}
+        onReject={handleRejectExpense}
+        currentUserId={user?.id}
       />
     </View>
   );
