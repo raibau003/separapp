@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
-import { supabase } from '@/lib/supabase';
+import { Ionicons } from '@expo/vector-icons';
+import { signInWithEmail, signInWithGoogle } from '@/lib/authSync';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -16,25 +17,36 @@ export default function LoginScreen() {
     }
 
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    setLoading(false);
-
-    if (error) {
-      Alert.alert('Error', error.message);
-    } else {
+    try {
+      await signInWithEmail(email, password);
       router.replace('/(tabs)');
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'Error al iniciar sesión');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    try {
+      await signInWithGoogle();
+      router.replace('/(tabs)');
+    } catch (error: any) {
+      // Si el usuario canceló, no mostrar error
+      if (error.code !== '12501') {
+        Alert.alert('Error', error.message || 'Error al iniciar sesión con Google');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Órbita</Text>
-        <Text style={styles.subtitle}>Dos mundos, un centro</Text>
+        <Text style={styles.title}>SeparApp</Text>
+        <Text style={styles.subtitle}>Gestión inteligente para padres separados</Text>
 
         <TextInput
           style={styles.input}
@@ -60,9 +72,28 @@ export default function LoginScreen() {
           onPress={handleLogin}
           disabled={loading}
         >
-          <Text style={styles.buttonText}>
-            {loading ? 'Ingresando...' : 'Ingresar'}
-          </Text>
+          {loading ? (
+            <ActivityIndicator color="#FFFFFF" />
+          ) : (
+            <Text style={styles.buttonText}>Ingresar con Email</Text>
+          )}
+        </TouchableOpacity>
+
+        {/* Divisor */}
+        <View style={styles.divider}>
+          <View style={styles.dividerLine} />
+          <Text style={styles.dividerText}>O</Text>
+          <View style={styles.dividerLine} />
+        </View>
+
+        {/* Botón Google Sign-In */}
+        <TouchableOpacity
+          style={[styles.googleButton, loading && styles.buttonDisabled]}
+          onPress={handleGoogleSignIn}
+          disabled={loading}
+        >
+          <Ionicons name="logo-google" size={20} color="#FFFFFF" />
+          <Text style={styles.buttonText}>Continuar con Google</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -135,5 +166,29 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     marginTop: 16,
+  },
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 24,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#DFE6E9',
+  },
+  dividerText: {
+    marginHorizontal: 16,
+    color: '#636E72',
+    fontSize: 14,
+  },
+  googleButton: {
+    backgroundColor: '#DB4437',
+    borderRadius: 8,
+    padding: 16,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
   },
 });

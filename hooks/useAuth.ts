@@ -5,14 +5,15 @@ import { useAuthStore } from '@/store/authStore';
  * Hook personalizado para manejar la autenticación
  */
 export function useAuth() {
-  const { user, session, loading, signOut, initialize } = useAuthStore();
+  const { user, profile, session, loading, signOut, initialize } = useAuthStore();
 
   useEffect(() => {
     initialize();
   }, [initialize]);
 
   return {
-    user,
+    user, // Supabase Auth user
+    profile, // Profile from profiles table
     session,
     loading,
     signOut,
