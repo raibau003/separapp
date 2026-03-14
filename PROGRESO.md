@@ -1,6 +1,6 @@
 # 🚀 Progreso del Proyecto Órbita App
 
-**Última actualización:** 14 de marzo de 2026
+**Última actualización:** 14 de marzo de 2026 - 11:30 AM
 
 ---
 
@@ -99,24 +99,43 @@
 
 ## 📋 PRÓXIMOS PASOS
 
-### Configuración de Supabase
-1. [ ] Ejecutar `supabase-schema.sql` en el SQL Editor de Supabase
-2. [ ] Verificar que las tablas se crearon correctamente
-3. [ ] Opcionalmente ejecutar `supabase-seed.sql` para datos de prueba
-4. [ ] Regenerar tipos desde Supabase (opcional):
-   ```bash
-   npx supabase gen types typescript --project-id srmhqcjbngrxmhnwfedq > types/database.ts
+### Configuración de Supabase ⚠️ PENDIENTE - ACCIÓN REQUERIDA
+**IMPORTANTE:** Necesitas ejecutar el SQL en Supabase manualmente
+
+1. [ ] **PASO CRÍTICO:** Ejecutar `EJECUTAR-ESTO-EN-SUPABASE.sql` en el SQL Editor
+   - Ve a: https://supabase.com/dashboard/project/srmhqcjbngrxmhnwfedq
+   - SQL Editor → New query
+   - Copia y pega TODO el archivo `EJECUTAR-ESTO-EN-SUPABASE.sql`
+   - Click en "Run"
+
+2. [ ] Verificar que las tablas se crearon:
+   ```sql
+   SELECT table_name FROM information_schema.tables
+   WHERE table_schema = 'public' ORDER BY table_name;
    ```
+
+3. [ ] Probar la conexión ejecutando:
+   ```bash
+   node scripts/test-supabase.js
+   ```
+
+4. [ ] (Opcional) Ejecutar `supabase-seed.sql` para datos de prueba
 
 ### MVP - Fase 1
 
 #### Módulo Gastos (Prioridad Alta)
-- [ ] Pantalla de lista de gastos con datos reales
+- [x] Pantalla de lista de gastos con datos reales
+- [x] Componente GastoCard para mostrar gastos
+- [x] Componente NuevoGastoModal para crear gastos
+- [x] Hook useGastos con todas las funciones
+- [x] Store gastosStore con Zustand
+- [x] Resumen de totales (pendientes/aprobados)
+- [x] Pull to refresh
+- [x] Estados vacíos (empty states)
 - [ ] Pantalla de detalle de gasto
-- [ ] Formulario para crear gasto
 - [ ] Integración con cámara para foto de boleta
 - [ ] Upload de imagen a Supabase Storage
-- [ ] Flujo de aprobación/rechazo
+- [ ] Flujo de aprobación/rechazo mejorado
 - [ ] Notificaciones push
 - [ ] Resumen mensual por hijo
 - [ ] Exportar PDF (feature premium)
