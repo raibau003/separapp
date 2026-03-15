@@ -410,4 +410,20 @@ Proprietary - Todos los derechos reservados © 2026
 
 ---
 
+## 🚀 Publicar en App Store y Google Play
+
+¿Listo para lanzar SeparApp al mundo? Consulta nuestras guías completas:
+
+- **[GUIA-DESPLIEGUE.md](./GUIA-DESPLIEGUE.md)** - Guía paso a paso para publicar en Apple App Store y Google Play Store
+- **[COMANDOS-DESPLIEGUE.md](./COMANDOS-DESPLIEGUE.md)** - Referencia rápida de comandos EAS para build y submit
+- **[CHECKLIST-TESTING.md](./CHECKLIST-TESTING.md)** - Checklist completo de testing pre-producción
+
+**Requisitos para publicar:**
+1. ✅ Completar FASE 5 (Testing y Polish)
+2. ✅ Cuenta Apple Developer ($99 USD/año)
+3. ✅ Cuenta Google Play Console ($25 USD pago único)
+4. ✅ Configurar servicios en producción (Supabase, Stripe, Firebase, OpenAI)
+
+---
+
 **SeparApp** - Haciendo la coparentalidad más simple y organizada 🎯✨
