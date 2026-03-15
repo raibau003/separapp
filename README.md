@@ -410,6 +410,28 @@ Proprietary - Todos los derechos reservados © 2026
 
 ---
 
+## 💰 Monetización (Opcional)
+
+SeparApp incluye dos opciones de modelo de negocio:
+
+### Plan A: Gratis (Actual - Implementado)
+- ✅ App 100% gratis sin límites
+- ✅ Lanzamiento inmediato
+- ✅ Máxima adopción
+- ❌ Sin ingresos recurrentes
+
+### Plan B: Freemium con Subscripciones
+- ✅ Plan Gratis (20 gastos/mes) + Plan Premium ($4.99/mes)
+- ✅ Ingresos recurrentes desde día 1
+- ✅ Proyección: $1,500-2,500/mes al año 1
+- ⏱️ Requiere 3-4 días de implementación adicional
+
+**Documentación de Monetización:**
+- **[RESUMEN-PLAN-B.md](./RESUMEN-PLAN-B.md)** - Resumen ejecutivo, proyecciones y comparación
+- **[PLAN-SUBSCRIPCIONES.md](./PLAN-SUBSCRIPCIONES.md)** - Plan técnico completo de implementación paso a paso
+
+---
+
 ## 🚀 Publicar en App Store y Google Play
 
 ¿Listo para lanzar SeparApp al mundo? Consulta nuestras guías completas:
@@ -423,6 +445,7 @@ Proprietary - Todos los derechos reservados © 2026
 2. ✅ Cuenta Apple Developer ($99 USD/año)
 3. ✅ Cuenta Google Play Console ($25 USD pago único)
 4. ✅ Configurar servicios en producción (Supabase, Stripe, Firebase, OpenAI)
+5. ⏳ (Opcional) Implementar Plan B de subscripciones
 
 ---
 
