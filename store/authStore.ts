@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { signOut as authSignOut } from '@/lib/authSync';
+import { useFamilyStore } from './familyStore';
 
 interface Profile {
   id: string;
@@ -70,9 +71,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       loading: false
     });
 
-    // Cargar perfil si hay sesión
+    // Cargar perfil y familias si hay sesión
     if (session?.user) {
       get().loadProfile(session.user.id);
+      useFamilyStore.getState().loadFamilies(session.user.id);
     }
 
     supabase.auth.onAuthStateChange(async (_event, session) => {
@@ -83,6 +85,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       if (session?.user) {
         get().loadProfile(session.user.id);
+        useFamilyStore.getState().loadFamilies(session.user.id);
       } else {
         set({ profile: null });
       }

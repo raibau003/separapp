@@ -61,7 +61,7 @@ export default function RegisterScreen() {
     <ScrollView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Crear cuenta</Text>
-        <Text style={styles.subtitle}>Únete a Órbita</Text>
+        <Text style={styles.subtitle}>Únete a SeparApp</Text>
 
         <TextInput
           style={styles.input}

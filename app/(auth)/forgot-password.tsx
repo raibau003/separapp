@@ -17,7 +17,7 @@ export default function ForgotPasswordScreen() {
     setLoading(true);
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'orbita://reset-password',
+      redirectTo: 'separapp://reset-password',
     });
 
     setLoading(false);

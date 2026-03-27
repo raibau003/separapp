@@ -41,6 +41,15 @@ export type CalendarEventType = 'custody' | 'activity' | 'school' | 'exchange';
 export type Currency = 'CLP' | 'ARS' | 'MXN' | 'EUR';
 
 /**
+ * Interfaz para una familia
+ */
+export interface Family {
+  id: string;
+  name: string;
+  created_at: string;
+}
+
+/**
  * Interfaz para un gasto
  */
 export interface Expense {

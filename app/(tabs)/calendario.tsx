@@ -14,6 +14,7 @@ import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { useAuth } from '@/hooks/useAuth';
 import { useFamilyStore } from '@/store/familyStore';
 import { useCalendario, CalendarEvent } from '@/hooks/useCalendario';
+import { NuevoEventoModal } from '@/components/calendario/NuevoEventoModal';
 
 // Configurar calendario en español
 LocaleConfig.locales['es'] = {
@@ -76,6 +77,7 @@ export default function CalendarioScreen() {
   } = useCalendario(currentFamily?.id || '');
 
   const [refreshing, setRefreshing] = useState(false);
+  const [showNewEventModal, setShowNewEventModal] = useState(false);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -248,13 +250,10 @@ export default function CalendarioScreen() {
               )}
             </View>
 
-            {/* Add Event Button (placeholder) */}
+            {/* Add Event Button */}
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() => {
-                // TODO: Abrir modal de crear evento
-                console.log('Crear nuevo evento');
-              }}
+              onPress={() => setShowNewEventModal(true)}
             >
               <Ionicons name="add-circle" size={24} color="#FFFFFF" />
               <Text style={styles.addButtonText}>Agregar Evento</Text>
@@ -262,6 +261,15 @@ export default function CalendarioScreen() {
           </>
         )}
       </ScrollView>
+
+      {/* New Event Modal */}
+      {currentFamily && (
+        <NuevoEventoModal
+          visible={showNewEventModal}
+          onClose={() => setShowNewEventModal(false)}
+          familyId={currentFamily.id}
+        />
+      )}
     </View>
   );
 }

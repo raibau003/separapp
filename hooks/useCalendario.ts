@@ -232,15 +232,15 @@ export function useCalendario(familyId: string) {
       const now = new Date();
 
       if (oneDayBefore > now) {
-        await scheduleLocalNotification({
-          title: `📅 Recordatorio: ${event.title}`,
-          body: `Mañana: ${event.description || getEventTypeName(event.event_type)}`,
-          data: {
+        await scheduleLocalNotification(
+          `📅 Recordatorio: ${event.title}`,
+          `Mañana: ${event.description || getEventTypeName(event.event_type)}`,
+          oneDayBefore,
+          {
             type: 'calendar_event',
             event_id: event.id,
-          },
-          trigger: oneDayBefore,
-        });
+          }
+        );
 
         console.log(`✅ Notificación programada para ${event.title}`);
       }
