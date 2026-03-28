@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { useState, useMemo } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { signInWithEmail, signInWithGoogle } from '@/lib/authSync';
@@ -9,6 +9,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const isWeb = useMemo(() => Platform.OS === 'web', []);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -28,6 +29,14 @@ export default function LoginScreen() {
   };
 
   const handleGoogleSignIn = async () => {
+    if (isWeb) {
+      Alert.alert(
+        'No disponible',
+        'Google Sign-In solo está disponible en la app móvil. Por favor, usa Email y Contraseña.'
+      );
+      return;
+    }
+
     setLoading(true);
     try {
       await signInWithGoogle();
@@ -86,14 +95,16 @@ export default function LoginScreen() {
           <View style={styles.dividerLine} />
         </View>
 
-        {/* Botón Google Sign-In */}
+        {/* Botón Google Sign-In (deshabilitado en web) */}
         <TouchableOpacity
-          style={[styles.googleButton, loading && styles.buttonDisabled]}
+          style={[styles.googleButton, (loading || isWeb) && styles.buttonDisabled]}
           onPress={handleGoogleSignIn}
-          disabled={loading}
+          disabled={loading || isWeb}
         >
           <Ionicons name="logo-google" size={20} color="#FFFFFF" />
-          <Text style={styles.buttonText}>Continuar con Google</Text>
+          <Text style={styles.buttonText}>
+            {isWeb ? 'Google Sign-In (Solo en app móvil)' : 'Continuar con Google'}
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
