@@ -15,6 +15,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useFamilyStore } from '@/store/familyStore';
 import { useCalendario, CalendarEvent } from '@/hooks/useCalendario';
 import { NuevoEventoModal } from '@/components/calendario/NuevoEventoModal';
+import { colors, spacing, typography, borderRadius, shadows } from '@/lib/styles';
 
 // Configurar calendario en español
 LocaleConfig.locales['es'] = {
@@ -155,7 +156,7 @@ export default function CalendarioScreen() {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <LinearGradient colors={['#6C63FF', '#4CAF50']} style={styles.header}>
+      <LinearGradient colors={[colors.primary, colors.success]} style={styles.header}>
         <Text style={styles.headerTitle}>Calendario</Text>
         <Text style={styles.headerSubtitle}>Eventos y custodia compartida</Text>
       </LinearGradient>
@@ -181,15 +182,15 @@ export default function CalendarioScreen() {
                 [selectedDate]: {
                   ...markedDates[selectedDate],
                   selected: true,
-                  selectedColor: '#6C63FF',
+                  selectedColor: colors.primary,
                 },
               }}
               theme={{
-                todayTextColor: '#6C63FF',
-                selectedDayBackgroundColor: '#6C63FF',
-                selectedDayTextColor: '#FFFFFF',
-                arrowColor: '#6C63FF',
-                monthTextColor: '#212121',
+                todayTextColor: colors.primary,
+                selectedDayBackgroundColor: colors.primary,
+                selectedDayTextColor: colors.surface,
+                arrowColor: colors.primary,
+                monthTextColor: colors.text,
                 textDayFontWeight: '500',
                 textMonthFontWeight: 'bold',
                 textDayHeaderFontWeight: '600',
@@ -277,63 +278,59 @@ export default function CalendarioScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: colors.background,
   },
   header: {
     paddingTop: 60,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
+    paddingBottom: spacing.lg,
+    paddingHorizontal: spacing.lg,
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 5,
+    color: colors.surface,
+    marginBottom: spacing.sm,
   },
   headerSubtitle: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: colors.surface,
     opacity: 0.9,
   },
   content: {
     flex: 1,
   },
   loadingContainer: {
-    padding: 40,
+    padding: spacing.xxxl,
     alignItems: 'center',
   },
   calendar: {
-    marginBottom: 16,
+    marginBottom: spacing.lg,
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    borderBottomColor: colors.border,
   },
   legend: {
-    backgroundColor: '#FFFFFF',
-    padding: 16,
-    marginHorizontal: 16,
-    marginBottom: 16,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    backgroundColor: colors.surface,
+    padding: spacing.lg,
+    marginHorizontal: spacing.lg,
+    marginBottom: spacing.lg,
+    borderRadius: borderRadius.md,
+    ...shadows.sm,
   },
   legendTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#212121',
-    marginBottom: 12,
+    color: colors.text,
+    marginBottom: spacing.lg,
   },
   legendItems: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 16,
+    gap: spacing.lg,
   },
   legendItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: spacing.sm,
   },
   legendDot: {
     width: 12,
@@ -342,119 +339,115 @@ const styles = StyleSheet.create({
   },
   legendText: {
     fontSize: 12,
-    color: '#757575',
+    color: colors.textSecondary,
   },
   section: {
-    padding: 16,
+    padding: spacing.lg,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#212121',
-    marginBottom: 16,
+    color: colors.text,
+    marginBottom: spacing.lg,
     textTransform: 'capitalize',
   },
   noEventsContainer: {
     alignItems: 'center',
-    paddingVertical: 40,
+    paddingVertical: spacing.xxxl,
   },
   noEventsText: {
     fontSize: 14,
-    color: '#757575',
-    marginTop: 12,
+    color: colors.textSecondary,
+    marginTop: spacing.lg,
   },
   eventCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.md,
+    padding: spacing.lg,
+    marginBottom: spacing.md,
     borderLeftWidth: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    ...shadows.sm,
   },
   eventHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: spacing.md,
   },
   eventTypeBadge: {
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 12,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: borderRadius.md,
   },
   eventTypeBadgeText: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.surface,
     textTransform: 'uppercase',
   },
   eventTime: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#757575',
+    color: colors.textSecondary,
   },
   eventTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#212121',
-    marginBottom: 4,
+    color: colors.text,
+    marginBottom: spacing.sm,
   },
   eventDescription: {
     fontSize: 14,
-    color: '#757575',
-    marginBottom: 8,
+    color: colors.textSecondary,
+    marginBottom: spacing.md,
   },
   eventLocation: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    marginBottom: 8,
+    gap: spacing.sm,
+    marginBottom: spacing.md,
   },
   eventLocationText: {
     fontSize: 13,
-    color: '#757575',
+    color: colors.textSecondary,
   },
   eventCreatedBy: {
     fontSize: 11,
-    color: '#BDBDBD',
+    color: colors.textMuted,
     fontStyle: 'italic',
   },
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#6C63FF',
-    marginHorizontal: 16,
-    marginVertical: 20,
+    backgroundColor: colors.primary,
+    marginHorizontal: spacing.lg,
+    marginVertical: spacing.xl,
     paddingVertical: 14,
-    borderRadius: 12,
-    gap: 8,
+    borderRadius: borderRadius.md,
+    gap: spacing.md,
   },
   addButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.surface,
   },
   emptyState: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 32,
+    padding: spacing.xxxl,
   },
   emptyStateTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#212121',
-    marginTop: 16,
-    marginBottom: 8,
+    color: colors.text,
+    marginTop: spacing.lg,
+    marginBottom: spacing.md,
   },
   emptyStateText: {
     fontSize: 14,
-    color: '#757575',
+    color: colors.textSecondary,
     textAlign: 'center',
   },
 });

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { supabase } from '@/lib/supabase';
+import { colors, spacing, typography, borderRadius, shadows } from '@/lib/styles';
 
 export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState('');
@@ -80,54 +81,55 @@ export default function ForgotPasswordScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: colors.background,
   },
   content: {
     flex: 1,
     justifyContent: 'center',
-    padding: 24,
+    padding: spacing.xl,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#2D3436',
+    ...typography.h2,
+    color: colors.text,
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: spacing.md,
   },
   subtitle: {
-    fontSize: 14,
-    color: '#636E72',
+    ...typography.small,
+    color: colors.textSecondary,
     textAlign: 'center',
-    marginBottom: 32,
+    marginBottom: spacing.xl,
+    lineHeight: 20,
   },
   input: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#DFE6E9',
-    borderRadius: 8,
-    padding: 16,
+    backgroundColor: colors.surface,
+    borderWidth: 2,
+    borderColor: colors.border,
+    borderRadius: borderRadius.lg,
+    padding: spacing.md,
     fontSize: 16,
-    marginBottom: 16,
+    marginBottom: spacing.md,
+    color: colors.text,
   },
   button: {
-    backgroundColor: '#6C63FF',
-    borderRadius: 8,
-    padding: 16,
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.lg,
+    padding: spacing.lg,
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: spacing.md,
+    ...shadows.lg,
   },
   buttonDisabled: {
     opacity: 0.6,
   },
   buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
+    color: colors.surface,
+    ...typography.bodyBold,
   },
   link: {
-    color: '#6C63FF',
-    fontSize: 14,
+    color: colors.primary,
+    ...typography.smallBold,
     textAlign: 'center',
-    marginTop: 16,
+    marginTop: spacing.xl,
   },
 });

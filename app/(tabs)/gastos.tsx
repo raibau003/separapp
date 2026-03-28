@@ -8,6 +8,7 @@ import NuevoGastoModal from '@/components/gastos/NuevoGastoModal';
 import DetalleGastoModal from '@/components/gastos/DetalleGastoModal';
 import { Expense } from '@/types/app';
 import { formatCurrency } from '@/lib/utils';
+import { colors, spacing, typography, borderRadius, shadows } from '@/lib/styles';
 
 export default function GastosScreen() {
   const { user } = useAuth();
@@ -233,42 +234,38 @@ export default function GastosScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#FFFFFF',
+    padding: spacing.lg,
+    backgroundColor: colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: '#DFE6E9',
+    borderBottomColor: colors.border,
   },
   headerText: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#2D3436',
+    color: colors.text,
   },
   addButton: {
-    backgroundColor: '#6C63FF',
+    backgroundColor: colors.primary,
     width: 40,
     height: 40,
-    borderRadius: 20,
+    borderRadius: borderRadius.full,
     justifyContent: 'center',
     alignItems: 'center',
   },
   summary: {
     flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    padding: 20,
-    marginHorizontal: 16,
-    marginTop: 16,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    backgroundColor: colors.surface,
+    padding: spacing.xl,
+    marginHorizontal: spacing.lg,
+    marginTop: spacing.lg,
+    borderRadius: borderRadius.md,
+    ...shadows.md,
   },
   summaryItem: {
     flex: 1,
@@ -276,41 +273,41 @@ const styles = StyleSheet.create({
   },
   summaryLabel: {
     fontSize: 12,
-    color: '#636E72',
-    marginBottom: 4,
+    color: colors.textSecondary,
+    marginBottom: spacing.sm,
   },
   summaryValue: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FF9800',
+    color: colors.warning,
   },
   summaryValueApproved: {
-    color: '#00B894',
+    color: colors.success,
   },
   summaryDivider: {
     width: 1,
-    backgroundColor: '#DFE6E9',
-    marginHorizontal: 20,
+    backgroundColor: colors.border,
+    marginHorizontal: spacing.xl,
   },
   list: {
-    padding: 16,
+    padding: spacing.lg,
   },
   emptyState: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 32,
+    padding: spacing.xxxl,
   },
   emptyStateTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#2D3436',
-    marginTop: 16,
-    marginBottom: 8,
+    color: colors.text,
+    marginTop: spacing.lg,
+    marginBottom: spacing.md,
   },
   emptyStateText: {
     fontSize: 14,
-    color: '#636E72',
+    color: colors.textSecondary,
     textAlign: 'center',
   },
 });

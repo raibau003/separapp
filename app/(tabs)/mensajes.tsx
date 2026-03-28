@@ -16,6 +16,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@/hooks/useAuth';
 import { useFamilyStore } from '@/store/familyStore';
 import { useMensajeria } from '@/hooks/useMensajeria';
+import { colors, spacing, typography, borderRadius, shadows } from '@/lib/styles';
 
 export default function MensajesScreen() {
   const { user, profile } = useAuth();
@@ -156,7 +157,7 @@ export default function MensajesScreen() {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
     >
       {/* Header */}
-      <LinearGradient colors={['#6C63FF', '#4CAF50']} style={styles.header}>
+      <LinearGradient colors={[colors.primary, colors.success]} style={styles.header}>
         <Text style={styles.headerTitle}>Mensajería</Text>
         <Text style={styles.headerSubtitle}>
           Comunicación constructiva y respetuosa
@@ -231,35 +232,35 @@ export default function MensajesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: colors.background,
   },
   header: {
     paddingTop: 60,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
+    paddingBottom: spacing.lg,
+    paddingHorizontal: spacing.lg,
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 5,
+    color: colors.surface,
+    marginBottom: spacing.sm,
   },
   headerSubtitle: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: colors.surface,
     opacity: 0.9,
   },
   aiBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#E8F5E9',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    gap: 8,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.lg,
+    gap: spacing.md,
   },
   aiBadgeText: {
     fontSize: 12,
-    color: '#4CAF50',
+    color: colors.success,
     fontWeight: '600',
   },
   loadingContainer: {
@@ -271,100 +272,96 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 32,
+    padding: spacing.xxxl,
   },
   emptyStateTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#212121',
-    marginTop: 16,
-    marginBottom: 8,
+    color: colors.text,
+    marginTop: spacing.lg,
+    marginBottom: spacing.md,
   },
   emptyStateText: {
     fontSize: 14,
-    color: '#757575',
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   messagesList: {
-    padding: 16,
-    paddingBottom: 8,
+    padding: spacing.lg,
+    paddingBottom: spacing.md,
   },
   dateSeparator: {
     alignItems: 'center',
-    marginVertical: 16,
+    marginVertical: spacing.lg,
   },
   dateSeparatorText: {
     fontSize: 12,
-    color: '#757575',
-    backgroundColor: '#E0E0E0',
-    paddingVertical: 4,
-    paddingHorizontal: 12,
-    borderRadius: 12,
+    color: colors.textSecondary,
+    backgroundColor: colors.border,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: borderRadius.md,
   },
   messageContainer: {
     maxWidth: '75%',
-    marginBottom: 12,
-    padding: 12,
-    borderRadius: 16,
+    marginBottom: spacing.md,
+    padding: spacing.md,
+    borderRadius: borderRadius.lg,
   },
   ownMessage: {
     alignSelf: 'flex-end',
-    backgroundColor: '#6C63FF',
+    backgroundColor: colors.primary,
   },
   otherMessage: {
     alignSelf: 'flex-start',
-    backgroundColor: '#FFFFFF',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    backgroundColor: colors.surface,
+    ...shadows.sm,
   },
   senderName: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#757575',
-    marginBottom: 4,
+    color: colors.textSecondary,
+    marginBottom: spacing.sm,
   },
   messageText: {
     fontSize: 16,
-    color: '#212121',
+    color: colors.text,
     lineHeight: 22,
   },
   messageFooter: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 4,
-    gap: 4,
+    marginTop: spacing.sm,
+    gap: spacing.sm,
   },
   messageTime: {
     fontSize: 11,
-    color: '#BDBDBD',
+    color: colors.textMuted,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    padding: 12,
-    backgroundColor: '#FFFFFF',
+    padding: spacing.md,
+    backgroundColor: colors.surface,
     borderTopWidth: 1,
-    borderTopColor: '#E0E0E0',
-    gap: 8,
+    borderTopColor: colors.border,
+    gap: spacing.md,
   },
   input: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
-    borderRadius: 20,
-    paddingHorizontal: 16,
+    backgroundColor: colors.background,
+    borderRadius: borderRadius.full,
+    paddingHorizontal: spacing.lg,
     paddingVertical: 10,
     fontSize: 16,
-    color: '#212121',
+    color: colors.text,
     maxHeight: 100,
   },
   sendButton: {
-    backgroundColor: '#6C63FF',
+    backgroundColor: colors.primary,
     width: 44,
     height: 44,
-    borderRadius: 22,
+    borderRadius: borderRadius.full,
     justifyContent: 'center',
     alignItems: 'center',
   },

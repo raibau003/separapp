@@ -21,6 +21,7 @@ import { useFamilyStore } from '@/store/familyStore';
 //   deletePaymentMethod,
 // } from '@/lib/stripe';
 import { getSettlements, getCurrentMonthSettlement } from '@/lib/settlements';
+import { colors, spacing, typography, borderRadius, shadows } from '@/lib/styles';
 // import AgregarTarjetaModal from '@/components/wallet/AgregarTarjetaModal'; // Stripe not supported on web yet
 
 interface PaymentMethod {
@@ -215,7 +216,7 @@ export default function WalletScreen() {
 
   return (
     <View style={styles.container}>
-      <LinearGradient colors={['#6C63FF', '#4CAF50']} style={styles.header}>
+      <LinearGradient colors={[colors.primary, colors.success]} style={styles.header}>
         <Text style={styles.headerTitle}>Wallet</Text>
         <Text style={styles.headerSubtitle}>Gestiona tus pagos y tarjetas</Text>
       </LinearGradient>
@@ -454,105 +455,101 @@ export default function WalletScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: colors.background,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: colors.background,
   },
   header: {
     paddingTop: 60,
-    paddingBottom: 30,
-    paddingHorizontal: 20,
+    paddingBottom: spacing.xxxl,
+    paddingHorizontal: spacing.lg,
   },
   headerTitle: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 5,
+    color: colors.surface,
+    marginBottom: spacing.sm,
   },
   headerSubtitle: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: colors.surface,
     opacity: 0.9,
   },
   content: {
     flex: 1,
-    padding: 20,
+    padding: spacing.xl,
   },
   section: {
-    marginBottom: 30,
+    marginBottom: spacing.xxxl,
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: spacing.md,
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#212121',
-    marginBottom: 15,
+    color: colors.text,
+    marginBottom: spacing.md,
   },
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
+    gap: spacing.sm,
   },
   addButtonText: {
-    color: '#6C63FF',
+    color: colors.primary,
     fontSize: 16,
     fontWeight: '600',
   },
   emptyState: {
     alignItems: 'center',
-    padding: 40,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
+    padding: spacing.xxxl,
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.md,
   },
   emptyText: {
     fontSize: 16,
-    color: '#757575',
-    marginTop: 10,
-    marginBottom: 20,
+    color: colors.textSecondary,
+    marginTop: spacing.md,
+    marginBottom: spacing.xl,
   },
   primaryButton: {
-    backgroundColor: '#6C63FF',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
+    backgroundColor: colors.primary,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.xl,
+    borderRadius: borderRadius.sm,
   },
   primaryButtonText: {
-    color: '#FFFFFF',
+    color: colors.surface,
     fontSize: 16,
     fontWeight: '600',
   },
   settlementCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.md,
+    padding: spacing.xl,
+    ...shadows.md,
   },
   settlementRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   settlementLabel: {
     fontSize: 16,
-    color: '#757575',
+    color: colors.textSecondary,
   },
   settlementValue: {
     fontSize: 16,
-    color: '#212121',
+    color: colors.text,
     fontWeight: '600',
   },
   settlementAmount: {
@@ -564,39 +561,35 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   cardItem: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 15,
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.md,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+    ...shadows.sm,
   },
   cardInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: spacing.md,
   },
   cardDetails: {
-    marginLeft: 15,
+    marginLeft: spacing.lg,
     flex: 1,
   },
   cardBrand: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#212121',
+    color: colors.text,
   },
   cardNumber: {
     fontSize: 14,
-    color: '#757575',
-    marginTop: 2,
+    color: colors.textSecondary,
+    marginTop: spacing.sm,
   },
   cardExpiry: {
     fontSize: 12,
-    color: '#BDBDBD',
-    marginTop: 2,
+    color: colors.textMuted,
+    marginTop: spacing.sm,
   },
   cardActions: {
     flexDirection: 'row',
@@ -605,31 +598,27 @@ const styles = StyleSheet.create({
   },
   defaultBadge: {
     backgroundColor: '#E8F5E9',
-    paddingVertical: 4,
-    paddingHorizontal: 12,
-    borderRadius: 12,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: borderRadius.md,
   },
   defaultBadgeText: {
-    color: '#4CAF50',
+    color: colors.success,
     fontSize: 12,
     fontWeight: '600',
   },
   setDefaultText: {
-    color: '#6C63FF',
+    color: colors.primary,
     fontSize: 14,
   },
   transactionItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 15,
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.md,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+    ...shadows.sm,
   },
   transactionInfo: {
     flexDirection: 'row',
@@ -637,23 +626,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   transactionDetails: {
-    marginLeft: 12,
+    marginLeft: spacing.md,
     flex: 1,
   },
   transactionDescription: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#212121',
+    color: colors.text,
   },
   transactionDate: {
     fontSize: 12,
-    color: '#BDBDBD',
-    marginTop: 2,
+    color: colors.textMuted,
+    marginTop: spacing.sm,
   },
   transactionUsers: {
     fontSize: 12,
-    color: '#757575',
-    marginTop: 2,
+    color: colors.textSecondary,
+    marginTop: spacing.sm,
   },
   transactionRight: {
     alignItems: 'flex-end',
@@ -664,20 +653,16 @@ const styles = StyleSheet.create({
   },
   transactionStatus: {
     fontSize: 12,
-    marginTop: 4,
+    marginTop: spacing.sm,
   },
   settlementItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 15,
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    backgroundColor: colors.surface,
+    borderRadius: borderRadius.md,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+    ...shadows.sm,
   },
   settlementInfo: {
     flex: 1,
@@ -685,13 +670,13 @@ const styles = StyleSheet.create({
   settlementMonth: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#212121',
+    color: colors.text,
     textTransform: 'capitalize',
   },
   settlementUsers: {
     fontSize: 12,
-    color: '#757575',
-    marginTop: 4,
+    color: colors.textSecondary,
+    marginTop: spacing.sm,
   },
   settlementRight: {
     alignItems: 'flex-end',
@@ -699,10 +684,10 @@ const styles = StyleSheet.create({
   settlementAmountSmall: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#6C63FF',
+    color: colors.primary,
   },
   settlementStatusSmall: {
     fontSize: 12,
-    marginTop: 4,
+    marginTop: spacing.sm,
   },
 });
