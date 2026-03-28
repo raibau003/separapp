@@ -1,7 +1,8 @@
 {
-  "buildCommand": "npm install && npm run build:web",
+  "buildCommand": "npm install",
   "outputDirectory": "dist",
   "framework": null,
+  "public": false,
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
