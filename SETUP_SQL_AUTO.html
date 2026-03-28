@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeparApp - Ejecutar SQL en Supabase</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .status {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+            color: #155724;
+        }
+
+        .step {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .step h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .step p {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .code-block:hover {
+            background: #2d2d2d;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .progress {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e7f3ff;
+            border-radius: 6px;
+            color: #004085;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        ol {
+            margin-left: 20px;
+            color: #333;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        .copied-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 6px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .copied-indicator.show {
+            display: block;
+            animation: fadeInOut 2s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            20%, 80% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✅ SeparApp — Inicializar Base de Datos</h1>
+        <p class="subtitle">Tu app está desplegada en Vercel. Solo falta crear las tablas en Supabase.</p>
+
+        <div class="status">
+            ✅ <strong>App lista para usar</strong><br>
+            Solo necesitas ejecutar el SQL en Supabase (paso a paso abajo)
+        </div>
+
+        <div class="step">
+            <h3>📋 Paso 1: Abre Supabase SQL Editor</h3>
+            <p>Abre esta URL en tu navegador:</p>
+            <div class="code-block" onclick="copiarTexto(this)">
+                https://supabase.com/dashboard/project/srmhqcjbngrxmhnwfedq/sql/new
+            </div>
+            <button class="btn-primary" onclick="window.open('https://supabase.com/dashboard/project/srmhqcjbngrxmhnwfedq/sql/new', '_blank')">
+                🔗 Abrir Supabase en nueva ventana
+            </button>
+        </div>
+
+        <div class="step">
+            <h3>📝 Paso 2: Copiar SQL</h3>
+            <p>Haz clic en el botón para copiar TODO el SQL al portapapeles:</p>
+            <button class="btn-primary" onclick="copiarSQL()">
+                📋 Copiar SQL al Portapapeles (200+ líneas)
+            </button>
+            <p style="margin-top: 10px; color: #666; font-size: 14px;">
+                ✅ Se copiará: tablas, índices, RLS policies y triggers
+            </p>
+        </div>
+
+        <div class="step">
+            <h3>💾 Paso 3: Pegar en Supabase</h3>
+            <p>En la ventana de Supabase que abriste:</p>
+            <ol>
+                <li>Haz clic en el área de texto (debajo de "SQL Editor")</li>
+                <li>Presiona <code>Ctrl+V</code> (Windows) o <code>Cmd+V</code> (Mac)</li>
+                <li>Deberías ver el SQL pegado</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>▶️ Paso 4: Ejecutar</h3>
+            <p>En Supabase:</p>
+            <ol>
+                <li>Haz clic en el botón azul <strong>Run</strong></li>
+                <li>Espera 10-15 segundos</li>
+                <li>Deberías ver: <code style="background: white; color: green; font-weight: bold;">Success. No rows returned</code></li>
+            </ol>
+        </div>
+
+        <div class="alert">
+            ⏱️ <strong>Si tarda mucho:</strong> A veces Supabase necesita 1-2 minutos. Si después de 2 minutos ves error, reinténtalo.
+        </div>
+
+        <div class="step">
+            <h3>🎉 Paso 5: Verificar</h3>
+            <p>Una vez que veas "Success", tu app está 100% lista. Abre:</p>
+            <div class="code-block" onclick="copiarTexto(this)">
+                https://separapp.vercel.app
+            </div>
+            <button class="btn-primary" onclick="window.open('https://separapp.vercel.app', '_blank')">
+                🚀 Abrir SeparApp
+            </button>
+        </div>
+
+        <div class="progress">
+            <strong>Estado de la app:</strong>
+            <ul style="margin-top: 10px; margin-left: 20px;">
+                <li>✅ Código compilado y desplegado en Vercel</li>
+                <li>✅ Autenticación con Firebase funcionando</li>
+                <li>✅ Calendario, mensajes, gastos listos</li>
+                <li>⏳ Base de datos (ejecuta el SQL arriba)</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>SeparApp v1.0 | Proyecto de coparentalidad</p>
+        </div>
+    </div>
+
+    <div class="copied-indicator" id="copiedIndicator">✅ ¡Copiado al portapapeles!</div>
+
+    <script>
+        const sqlContent = `-- ============================================
+-- ÓRBITA APP - SCHEMA COMPLETO
+-- ============================================
+
+-- TABLAS PRINCIPALES
+CREATE TABLE IF NOT EXISTS families (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  email TEXT NOT NULL,
+  full_name TEXT NOT NULL,
+  avatar_url TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS family_members (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  family_id UUID NOT NULL REFERENCES families(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  role TEXT NOT NULL CHECK (role IN ('padre', 'madre', 'hijo', 'mediador', 'juez')),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(family_id, user_id)
+);
+
+CREATE TABLE IF NOT EXISTS children (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  family_id UUID NOT NULL REFERENCES families(id) ON DELETE CASCADE,
+  full_name TEXT NOT NULL,
+  birth_date DATE NOT NULL,
+  photo_url TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS expenses (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  family_id UUID NOT NULL REFERENCES families(id) ON DELETE CASCADE,
+  child_id UUID NOT NULL REFERENCES children(id) ON DELETE CASCADE,
+  declared_by UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  amount NUMERIC(10, 2) NOT NULL,
+  currency TEXT NOT NULL DEFAULT 'CLP' CHECK (currency IN ('CLP', 'ARS', 'MXN', 'EUR')),
+  category TEXT NOT NULL CHECK (category IN ('educacion', 'salud', 'ropa', 'alimentacion', 'deporte', 'transporte', 'otros')),
+  description TEXT NOT NULL,
+  receipt_url TEXT,
+  ocr_data JSONB,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  approved_by UUID REFERENCES profiles(id) ON DELETE SET NULL,
+  approved_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS maintenance_payments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  family_id UUID NOT NULL REFERENCES families(id) ON DELETE CASCADE,
+  amount NUMERIC(10, 2) NOT NULL,
+  currency TEXT NOT NULL DEFAULT 'CLP' CHECK (currency IN ('CLP', 'ARS', 'MXN', 'EUR')),
+  frequency TEXT NOT NULL CHECK (frequency IN ('mensual', 'quincenal')),
+  due_date DATE NOT NULL,
+  paid_date DATE,
+  paid_by UUID REFERENCES profiles(id) ON DELETE SET NULL,
+  receipt_url TEXT,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'paid', 'late')),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  family_id UUID NOT NULL REFERENCES families(id) ON DELETE CASCADE,
+  sender_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  content TEXT NOT NULL,
+  original_content TEXT,
+  ai_filtered BOOLEAN NOT NULL DEFAULT false,
+  ai_suggestion TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS calendar_events (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  family_id UUID NOT NULL REFERENCES families(id) ON DELETE CASCADE,
+  child_id UUID REFERENCES children(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  start_date TIMESTAMP WITH TIME ZONE NOT NULL,
+  end_date TIMESTAMP WITH TIME ZONE NOT NULL,
+  type TEXT NOT NULL CHECK (type IN ('custody', 'activity', 'school', 'exchange')),
+  created_by UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- ÍNDICES
+CREATE INDEX IF NOT EXISTS idx_family_members_family_id ON family_members(family_id);
+CREATE INDEX IF NOT EXISTS idx_family_members_user_id ON family_members(user_id);
+CREATE INDEX IF NOT EXISTS idx_children_family_id ON children(family_id);
+CREATE INDEX IF NOT EXISTS idx_expenses_family_id ON expenses(family_id);
+CREATE INDEX IF NOT EXISTS idx_expenses_status ON expenses(status);
+CREATE INDEX IF NOT EXISTS idx_expenses_created_at ON expenses(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_maintenance_payments_family_id ON maintenance_payments(family_id);
+CREATE INDEX IF NOT EXISTS idx_maintenance_payments_status ON maintenance_payments(status);
+CREATE INDEX IF NOT EXISTS idx_messages_family_id ON messages(family_id);
+CREATE INDEX IF NOT EXISTS idx_messages_created_at ON messages(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_calendar_events_family_id ON calendar_events(family_id);
+CREATE INDEX IF NOT EXISTS idx_calendar_events_dates ON calendar_events(start_date, end_date);
+
+-- HABILITAR RLS
+ALTER TABLE families ENABLE ROW LEVEL SECURITY;
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE family_members ENABLE ROW LEVEL SECURITY;
+ALTER TABLE children ENABLE ROW LEVEL SECURITY;
+ALTER TABLE expenses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE maintenance_payments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE calendar_events ENABLE ROW LEVEL SECURITY;
+
+-- POLÍTICAS RLS - PROFILES
+CREATE POLICY "Users can view their own profile" ON profiles FOR SELECT USING (auth.uid() = id);
+CREATE POLICY "Users can update their own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
+CREATE POLICY "Users can insert their own profile" ON profiles FOR INSERT WITH CHECK (auth.uid() = id);
+
+-- POLÍTICAS RLS - FAMILY_MEMBERS
+CREATE POLICY "Users can view family members of their families" ON family_members FOR SELECT
+USING (EXISTS (SELECT 1 FROM family_members fm WHERE fm.family_id = family_members.family_id AND fm.user_id = auth.uid()));
+
+-- POLÍTICAS RLS - FAMILIES
+CREATE POLICY "Users can view their families" ON families FOR SELECT
+USING (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = families.id AND family_members.user_id = auth.uid()));
+
+-- POLÍTICAS RLS - CHILDREN
+CREATE POLICY "Users can view children of their families" ON children FOR SELECT
+USING (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = children.family_id AND family_members.user_id = auth.uid()));
+
+CREATE POLICY "Parents can insert children" ON children FOR INSERT
+WITH CHECK (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = children.family_id AND family_members.user_id = auth.uid() AND family_members.role IN ('padre', 'madre')));
+
+CREATE POLICY "Parents can update children" ON children FOR UPDATE
+USING (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = children.family_id AND family_members.user_id = auth.uid() AND family_members.role IN ('padre', 'madre')));
+
+-- POLÍTICAS RLS - EXPENSES
+CREATE POLICY "Users can view expenses of their families" ON expenses FOR SELECT
+USING (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = expenses.family_id AND family_members.user_id = auth.uid()));
+
+CREATE POLICY "Parents can create expenses" ON expenses FOR INSERT
+WITH CHECK (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = expenses.family_id AND family_members.user_id = auth.uid() AND family_members.role IN ('padre', 'madre')) AND declared_by = auth.uid());
+
+CREATE POLICY "Parents can update expenses" ON expenses FOR UPDATE
+USING (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = expenses.family_id AND family_members.user_id = auth.uid() AND family_members.role IN ('padre', 'madre')));
+
+-- POLÍTICAS RLS - MAINTENANCE_PAYMENTS
+CREATE POLICY "Users can view maintenance payments of their families" ON maintenance_payments FOR SELECT
+USING (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = maintenance_payments.family_id AND family_members.user_id = auth.uid()));
+
+CREATE POLICY "Parents can manage maintenance payments" ON maintenance_payments FOR ALL
+USING (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = maintenance_payments.family_id AND family_members.user_id = auth.uid() AND family_members.role IN ('padre', 'madre')));
+
+-- POLÍTICAS RLS - MESSAGES
+CREATE POLICY "Users can view messages of their families" ON messages FOR SELECT
+USING (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = messages.family_id AND family_members.user_id = auth.uid()));
+
+CREATE POLICY "Parents can create messages" ON messages FOR INSERT
+WITH CHECK (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = messages.family_id AND family_members.user_id = auth.uid() AND family_members.role IN ('padre', 'madre')) AND sender_id = auth.uid());
+
+-- POLÍTICAS RLS - CALENDAR_EVENTS
+CREATE POLICY "Users can view calendar events of their families" ON calendar_events FOR SELECT
+USING (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = calendar_events.family_id AND family_members.user_id = auth.uid()));
+
+CREATE POLICY "Parents can manage calendar events" ON calendar_events FOR ALL
+USING (EXISTS (SELECT 1 FROM family_members WHERE family_members.family_id = calendar_events.family_id AND family_members.user_id = auth.uid() AND family_members.role IN ('padre', 'madre')));
+
+-- FUNCIÓN: Crear perfil automáticamente
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.profiles (id, email, full_name)
+  VALUES (NEW.id, NEW.email, COALESCE(NEW.raw_user_meta_data->>'full_name', 'Usuario'));
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- FUNCIÓN: Actualizar pagos atrasados
+CREATE OR REPLACE FUNCTION update_late_payments()
+RETURNS void AS $$
+BEGIN
+  UPDATE maintenance_payments SET status = 'late' WHERE status = 'pending' AND due_date < CURRENT_DATE;
+END;
+$$ LANGUAGE plpgsql;`;
+
+        function copiarSQL() {
+            navigator.clipboard.writeText(sqlContent).then(() => {
+                mostrarIndicador();
+                const button = event.target;
+                const old = button.textContent;
+                button.textContent = '✅ ¡Copiado!';
+                setTimeout(() => {
+                    button.textContent = old;
+                }, 2000);
+            }).catch(err => {
+                alert('Error al copiar: ' + err);
+            });
+        }
+
+        function copiarTexto(element) {
+            const text = element.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                mostrarIndicador();
+            }).catch(err => {
+                alert('Error al copiar: ' + err);
+            });
+        }
+
+        function mostrarIndicador() {
+            const indicator = document.getElementById('copiedIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
