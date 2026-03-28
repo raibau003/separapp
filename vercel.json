@@ -1,28 +1,8 @@
 {
-  "buildCommand": "npm install && npx expo export --platform web",
+  "buildCommand": "npm install && npm run build:web",
   "outputDirectory": "dist",
   "framework": null,
-  "regions": ["sfo1"],
-  "functions": {},
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600, must-revalidate"
-        }
-      ]
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
