@@ -13,14 +13,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@/hooks/useAuth';
 import { useFamilyStore } from '@/store/familyStore';
-import {
-  getPaymentMethods,
-  getWalletTransactions,
-  setDefaultPaymentMethod,
-  deletePaymentMethod,
-} from '@/lib/stripe';
+// Stripe disabled for web support
+// import {
+//   getPaymentMethods,
+//   getWalletTransactions,
+//   setDefaultPaymentMethod,
+//   deletePaymentMethod,
+// } from '@/lib/stripe';
 import { getSettlements, getCurrentMonthSettlement } from '@/lib/settlements';
-import AgregarTarjetaModal from '@/components/wallet/AgregarTarjetaModal';
+// import AgregarTarjetaModal from '@/components/wallet/AgregarTarjetaModal'; // Stripe not supported on web yet
 
 interface PaymentMethod {
   id: string;
@@ -77,15 +78,14 @@ export default function WalletScreen() {
     try {
       setLoading(true);
 
-      const [methods, txs, setts, currentSett] = await Promise.all([
-        getPaymentMethods(user.id),
-        getWalletTransactions(currentFamily.id),
+      // Stripe disabled for web - only load settlements
+      const [setts, currentSett] = await Promise.all([
         getSettlements(currentFamily.id, 6),
         getCurrentMonthSettlement(currentFamily.id),
       ]);
 
-      setPaymentMethods(methods || []);
-      setTransactions(txs || []);
+      setPaymentMethods([]); // Stripe not available on web
+      setTransactions([]); // Stripe not available on web
       setSettlements(setts || []);
       setCurrentSettlement(currentSett);
     } catch (error) {
@@ -103,16 +103,18 @@ export default function WalletScreen() {
   };
 
   const handleSetDefaultCard = async (methodId: string) => {
-    if (!user) return;
+    // Stripe disabled for web
+    Alert.alert('No disponible', 'Esta funcionalidad aún no está disponible en web');
+    // if (!user) return;
 
-    try {
-      await setDefaultPaymentMethod(user.id, methodId);
-      await loadWalletData();
-      Alert.alert('Éxito', 'Tarjeta predeterminada actualizada');
-    } catch (error) {
-      console.error('Error setting default card:', error);
-      Alert.alert('Error', 'No se pudo actualizar la tarjeta predeterminada');
-    }
+    // try {
+    //   await setDefaultPaymentMethod(user.id, methodId);
+    //   await loadWalletData();
+    //   Alert.alert('Éxito', 'Tarjeta predeterminada actualizada');
+    // } catch (error) {
+    //   console.error('Error setting default card:', error);
+    //   Alert.alert('Error', 'No se pudo actualizar la tarjeta predeterminada');
+    // }
   };
 
   const handleDeleteCard = async (methodId: string) => {
@@ -128,7 +130,8 @@ export default function WalletScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
-              await deletePaymentMethod(methodId, user.id);
+              // Stripe disabled for web
+              // await deletePaymentMethod(methodId, user.id);
               await loadWalletData();
               Alert.alert('Éxito', 'Tarjeta eliminada');
             } catch (error) {
@@ -435,15 +438,15 @@ export default function WalletScreen() {
         )}
       </ScrollView>
 
-      {/* Modal para Agregar Tarjeta */}
-      <AgregarTarjetaModal
+      {/* Modal para Agregar Tarjeta - Disabled on web */}
+      {/* <AgregarTarjetaModal
         visible={showAddCardModal}
         onClose={() => setShowAddCardModal(false)}
         onSuccess={() => {
           setShowAddCardModal(false);
           loadWalletData();
         }}
-      />
+      /> */}
     </View>
   );
 }
