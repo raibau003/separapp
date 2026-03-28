@@ -1,5 +1,16 @@
-import { GoogleSignin } from './firebase';
+import { Platform } from 'react-native';
 import { supabase } from './supabase';
+
+// Lazy load GoogleSignin solo en plataformas nativas
+let GoogleSignin: any = null;
+if (Platform.OS !== 'web') {
+  try {
+    const firebase = require('./firebase');
+    GoogleSignin = firebase.GoogleSignin;
+  } catch (error) {
+    console.warn('Firebase not available');
+  }
+}
 
 /**
  * Sincroniza usuario de Google a Supabase
