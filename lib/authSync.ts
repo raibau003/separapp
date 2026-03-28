@@ -58,6 +58,10 @@ export async function syncGoogleUserToSupabase(googleUser: any) {
  * Login con Google
  */
 export async function signInWithGoogle() {
+  if (!GoogleSignin) {
+    throw new Error('Google Sign-In no disponible en web. Use email y contraseña.');
+  }
+
   try {
     // Verificar Google Play Services
     await GoogleSignin.hasPlayServices();

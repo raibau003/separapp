@@ -29,31 +29,35 @@ export default function RegisterScreen() {
 
     setLoading(true);
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: fullName,
-        },
-      },
-    });
-
-    setLoading(false);
-
-    if (error) {
-      Alert.alert('Error', error.message);
-    } else {
-      Alert.alert(
-        'Registro exitoso',
-        'Por favor revisa tu email para confirmar tu cuenta',
-        [
-          {
-            text: 'OK',
-            onPress: () => router.replace('/(auth)/login'),
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
           },
-        ]
-      );
+        },
+      });
+
+      if (error) {
+        Alert.alert('Error', error.message);
+      } else {
+        Alert.alert(
+          'Registro exitoso',
+          'Por favor revisa tu email para confirmar tu cuenta',
+          [
+            {
+              text: 'OK',
+              onPress: () => router.replace('/(auth)/login'),
+            },
+          ]
+        );
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'Error al registrar cuenta');
+    } finally {
+      setLoading(false);
     }
   };
 

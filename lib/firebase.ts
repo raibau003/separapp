@@ -1,14 +1,20 @@
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { Platform } from 'react-native';
 
-/**
- * Configuración de Google Sign-In
- * NOTA: El webClientId se debe obtener de Firebase Console
- * Project Settings > General > Web API Key
- */
-GoogleSignin.configure({
-  webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID || '',
-  offlineAccess: true,
-});
+// GoogleSignin solo en plataformas nativas
+let GoogleSignin: any = null;
+
+if (Platform.OS !== 'web') {
+  try {
+    const { GoogleSignin: RNGoogleSignin } = require('@react-native-google-signin/google-signin');
+    GoogleSignin = RNGoogleSignin;
+    GoogleSignin.configure({
+      webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID || '',
+      offlineAccess: true,
+    });
+  } catch (error) {
+    console.warn('GoogleSignin not available');
+  }
+}
 
 export { GoogleSignin };
 
