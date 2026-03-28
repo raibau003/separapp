@@ -1,8 +1,7 @@
 {
-  "buildCommand": "npm install",
+  "buildCommand": null,
   "outputDirectory": "dist",
   "framework": null,
-  "public": false,
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
